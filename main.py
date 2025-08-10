@@ -2,16 +2,15 @@ import tkinter as tk
 from tkinter import ttk
 from transformers import pipeline
 
-pipeline = pipeline("text-classification", model="nlptown/bert-base-multilingual-uncased-sentiment")
+pipeline = pipeline("text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
 
 def synthesise_input(name_entry, name_label):
     user_input = name_entry.get()
     if user_input:
+        user_input = [user_input]
         user_input = pipeline(user_input)
-        sentiment = user_input[0]['label']
-        score = user_input[0]['score']
-        name_label.config(text= f"Your score: {sentiment}, and the model's confidence: {score}")
-        print(f"Detected Sentiment: {sentiment} (Confidence: {score:})")
+        name_label.config(text= user_input[0])
+        print(f"Detected Sentiment: {user_input[0]}")
     else:
         print("Please enter a mood!")
 
