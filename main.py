@@ -9,8 +9,8 @@ def synthesise_input(name_entry, name_label):
     if user_input:
         user_input = [user_input]
         user_input = pipeline(user_input)
-        name_label.config(text= user_input[0])
-        print(f"Detected Sentiment: {user_input[0]}")
+        name_label.config(text= f"{user_input[0][0]['label']} || Detected Score: {round(user_input[0][0]['score'], 2)}")
+        print(f"Detected Sentiment: {user_input[0][0]['label']} || Detected Score: {round(user_input[0][0]['score'], 2)}")
     else:
         print("Please enter a mood!")
 
