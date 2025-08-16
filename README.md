@@ -10,3 +10,5 @@
 - Spotify API
 - Tkinter
 - Transformers
+
+#### Made with ❤️
