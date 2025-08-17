@@ -23,13 +23,11 @@ def gemini_prompt(name_entry, name_label):
         response = client.models.generate_content(
         model="gemini-2.5-flash",
         contents=f"""
-        The user has expressed the following sentiment: {name_entry.get()}.
-        Based on this emotional tone, generate a highly relevant and evocative search query that could be used to find a Spotify playlist. 
-        The playlist should reflect the mood in a musically authentic way — considering genre, tempo, and emotional resonance.
-        Avoid generic terms like 'happy music' or 'sad songs'. Instead, use expressive phrases like 'melancholic acoustic ballads', 'high-energy workout anthems', or 'soothing lo-fi beats for anxiety'.
-        Make sure the query is suitable for Spotify's search engine and likely to return curated playlists that match the sentiment.
-        """,
-        )
+        Analyze user input: {name_entry.get()}. 
+        Detect if it’s an emotional tone (e.g., 'happy'), artist (e.g., 'Taylor Swift'), or genre (e.g., 'jazz'). 
+        Generate a Spotify-optimized search query (max 250 chars) reflecting the mood, artist style, or genre with evocative phrases like 'dreamy indie folk' or 'introspective rap flows'. 
+        Avoid generic terms like 'happy music'; use 'playlist' if needed for curated results.
+                """,)
         give_playlist(response.text, name_label)
     except Exception as e:
         print(f"Error: {e}")
