@@ -9,6 +9,7 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
     redirect_uri="https://example.org/callback",
     scope=scope))
 
-results = sp.currently_playing()
-print(results['item']['name'])
-print(results['item']['artists'][0]['name'])
+def search(query):
+    results = sp.search(q=query, type='playlist')
+    print(results['item']['name'])
+    print(results['item']['artists'][0]['name'])
