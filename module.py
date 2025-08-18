@@ -20,6 +20,7 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id = client_id, client_sec
 
 def gemini_prompt(name_entry, name_label):
     try:
+        client.max_output_tokens = 250
         response = client.models.generate_content(
         model="gemini-2.5-flash",
         contents=f"""
@@ -28,8 +29,10 @@ def gemini_prompt(name_entry, name_label):
         Generate a Spotify-optimized search query (max 250 chars) reflecting the mood, artist style, or genre with evocative phrases like 'dreamy indie folk' or 'introspective rap flows'. 
         Avoid generic terms like 'happy music'; use 'playlist' if needed for curated results.
                 """,)
-        give_playlist(response.text, name_label)
-        print(response.text)
+        max_chars = 250
+        output = response.text[:max_chars]
+        give_playlist(output, name_label)
+        print(output)
     except Exception as e:
         print(f"Error: {e}")
 
