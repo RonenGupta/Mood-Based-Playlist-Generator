@@ -29,6 +29,7 @@ def gemini_prompt(name_entry, name_label):
         Avoid generic terms like 'happy music'; use 'playlist' if needed for curated results.
                 """,)
         give_playlist(response.text, name_label)
+        print(response.text)
     except Exception as e:
         print(f"Error: {e}")
 
