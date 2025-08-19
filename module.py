@@ -24,11 +24,13 @@ def gemini_prompt(name_entry, name_label):
         response = client.models.generate_content(
         model="gemini-2.5-flash",
         contents=f"""
-        Analyze user input: {name_entry.get()}. 
-        Detect if it’s an emotional tone (e.g., 'happy'), artist (e.g., 'Taylor Swift'), or genre (e.g., 'jazz'). 
-        Generate a Spotify-optimized search query (max 250 chars) reflecting the mood, artist style, or genre with evocative phrases like 'dreamy indie folk' or 'introspective rap flows'. 
-        Avoid generic terms like 'happy music'; use 'playlist' if needed for curated results.
-                """,)
+            Analyze this input: {name_entry.get()}.
+
+            Determine whether it's a mood (e.g., 'happy'), an artist (e.g., 'Taylor Swift'), or a genre (e.g., 'jazz').
+
+            Then generate a short, natural Spotify search query that a typical user might type to find a playlist. Use descriptive but simple phrases like 'chill indie playlist' or 'energetic workout mix'. Include the word 'playlist' if it helps improve results. Avoid overly complex or poetic language. Output only the query—no labels, titles, or extra formatting.
+            """
+        ,)
         max_chars = 250
         output = response.text[:max_chars]
         give_playlist(output, name_label)
@@ -41,9 +43,12 @@ def give_playlist(response, name_label):
         results = sp.search(q=response, type='playlist')
         playlistName = results['playlists']['items'][0]['name']
         playlistOwner = results['playlists']['items'][0]['owner']['display_name']
-        name_label.configure(text= f"Playlist Recommendation: {playlistName} Playlist Owner: {playlistOwner}")
-        print(f"Playlist Recommendation: {playlistName} Playlist Owner: {playlistOwner}")
+        if playlistName and playlistOwner:
+            name_label.configure(text= f"Playlist Recommendation: {playlistName} Playlist Owner: {playlistOwner}")
+            print(f"Playlist Recommendation: {playlistName} Playlist Owner: {playlistOwner}")
+        else:
+            print(f"There was no recommendation! Please give a better description.")
     except Exception as e:
-        print(f"Error {e}")
+        print(f"Error {e}\n If this was a NoneType Error, the AI could not understand! Please give a valid mood, and/or a specific artist/genre clearly.")
 
 
