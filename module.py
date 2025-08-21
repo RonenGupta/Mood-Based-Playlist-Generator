@@ -1,8 +1,12 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+from customtkinter import CTkImage
 from google import genai
+import urllib.request
+import io
 import os
 from dotenv import load_dotenv
+from PIL import Image
 
 load_dotenv()
 
@@ -17,8 +21,10 @@ scope = ["playlist-modify-private", 'playlist-modify-public', 'user-read-playbac
 
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id = client_id, client_secret = client_secret, redirect_uri = redirect_uri, scope=' '.join(scope)))
 
+image_refs = []
 
-def gemini_prompt(name_entry, name_label):
+
+def gemini_prompt(name_entry, name_label, image_label):
     try:
         client.max_output_tokens = 250
         response = client.models.generate_content(
@@ -28,27 +34,41 @@ def gemini_prompt(name_entry, name_label):
 
             Determine whether it's a mood (e.g., 'happy'), an artist (e.g., 'Taylor Swift'), or a genre (e.g., 'jazz').
 
-            Then generate a short, natural Spotify search query that a typical user might type to find a playlist. Use descriptive but simple phrases like 'chill indie playlist' or 'energetic workout mix'. Include the word 'playlist' if it helps improve results. Avoid overly complex or poetic language. Output only the query—no labels, titles, or extra formatting.
+            Then generate a short, natural Spotify search query that a typical user might type to find a playlist. Use descriptive but simple phrases like 'chill indie playlist' or 'energetic workout mix'. Include the word 'playlist' if it helps improve results. 
+            Avoid overly complex or poetic language. Output only the query—no labels, titles, or extra formatting. Also, try to make queries avoid errors.
             """
         ,)
         max_chars = 250
         output = response.text[:max_chars]
-        give_playlist(output, name_label)
+        give_playlist(output, name_label, image_label)
         print(output)
     except Exception as e:
         print(f"Error: {e}")
 
-def give_playlist(response, name_label):
+def give_playlist(response, name_label, image_label):
     try:
         results = sp.search(q=response, type='playlist')
+        print(results)
         playlistName = results['playlists']['items'][0]['name']
         playlistOwner = results['playlists']['items'][0]['owner']['display_name']
-        if playlistName and playlistOwner:
-            name_label.configure(text= f"Playlist Recommendation: {playlistName}\n Playlist Owner: {playlistOwner}")
-            print(f"Playlist Recommendation: {playlistName}\n Playlist Owner: {playlistOwner}")
+        playlistImage = results['playlists']['items'][0]['images'][0]['url']
+        if playlistName and playlistOwner and playlistImage:
+            name_label.configure(text= f"Playlist Recommendation: {playlistName} Playlist Owner: {playlistOwner}", width=220, height=180,)
+            print(f"Playlist Recommendation: \n{playlistName}\n Playlist Owner: \n{playlistOwner}")
+            with urllib.request.urlopen(playlistImage) as u:
+                raw_data = u.read()
+            image = Image.open(io.BytesIO(raw_data)).resize((200, 200))
+            image_refs.append(image)
+            image_label.configure(text='', image=CTkImage(dark_image=image, size=(200, 190)))
+            image_label.pack(padx=20, pady=10)
+        elif playlistName and playlistOwner:
+            name_label.configure(text= f"Playlist Recommendation: {playlistName} Playlist Owner: {playlistOwner}", width=200, height=180,)
+            print(f"Playlist Recommendation: \n{playlistName}\n Playlist Owner: \n{playlistOwner}")
         else:
             print(f"There was no recommendation! Please give a better description.")
     except Exception as e:
         print(f"Error {e}\n If this was a NoneType Error, the AI could not understand! Please give a valid mood, and/or a specific artist/genre clearly.")
+        name_label.configure(text="Error loading playlist.")
+        image_label.configure(text="Could not load image.", image=None)
 
 

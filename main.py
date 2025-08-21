@@ -5,31 +5,40 @@ from PIL import Image
 
 ctk.set_appearance_mode("dark")
 root = ctk.CTk()
-root.geometry('800x600')
+root.geometry('800x500')
 root.title('MoodTunes')
+root.resizable(False, False)
 img = Image.open('Images/headphone-symbol.png')
 logo = Image.open('Images/Stretched.png')
 
-outer_frame = ctk.CTkFrame(root, fg_color="#302C2C", border_color='white',border_width=2, width=600, height=400)
-outer_frame.pack(expand=True, fill="both", padx=40, pady=40)
+outer_frame = ctk.CTkFrame(root, fg_color="#211F1F", border_color='white',border_width=2, width=600, height=400)
+outer_frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
 
 frame = ctk.CTkFrame(outer_frame, fg_color="#0D0707", border_color='white', border_width=2)
-frame.pack(expand=True)
+frame.grid(row=0, column=0, padx=10, pady=10, sticky="n")
+
+secondframe = ctk.CTkFrame(outer_frame, fg_color="#0D0707", border_color='white', border_width=2, width=200, height=200)
+secondframe.grid(row=0, column=1, padx=10, pady=10, sticky="n")
+
+thirdframe = ctk.CTkFrame(outer_frame, fg_color="#0D0707", border_color='white', border_width=2, width=220, height=100)
+thirdframe.place(x=500, y=230)
 
 label = ctk.CTkLabel(frame, image=CTkImage(dark_image=logo, size=(450, 150)), text='')
-label.pack(padx=20, pady=10)
+label.pack(padx=10, pady=5)
 
 name_entry = ctk.CTkTextbox(frame, text_color= 'Black', fg_color='#8afa9b', scrollbar_button_color='#8afa9b', scrollbar_button_hover_color='white',
                           border_color='white', width=300, border_width=2)
-name_entry.pack(padx=20, pady=10)
+name_entry.pack(padx=10, pady=5)
 
-name_label = ctk.CTkLabel(frame, text='Enter your mood!', width=100)
-name_label.pack(padx=20, pady=10)
+name_label = ctk.CTkLabel(thirdframe, text='Enter your mood!', width=200, height=90, font=('Lexend', 9), wraplength=180)
+name_label.pack(padx=10, pady=5)
+
+playlistlabel = ctk.CTkLabel(secondframe, image=CTkImage(dark_image=img, size=(200, 200)), text="Playlist image will appear here!")
+playlistlabel.pack(padx=10, pady=5)
 
 name_button = ctk.CTkButton(frame, text='Submit', text_color='Black', hover_color='black',fg_color='#8afa9b', 
                             corner_radius=32, border_color='white', border_width=2, image=CTkImage(dark_image=img),
-                            command=lambda: gemini_prompt(name_entry, name_label))
-name_button.pack(padx=20, pady=10)
-
+                            command=lambda: gemini_prompt(name_entry, name_label, playlistlabel))
+name_button.pack(padx=10, pady=5)
 
 root.mainloop()
