@@ -24,7 +24,7 @@ def gemini_prompt(name_entry, name_label):
         response = client.models.generate_content(
         model="gemini-2.5-flash",
         contents=f"""
-            Analyze this input: {name_entry.get()}.
+            Analyze this input: {name_entry.get('0.0', 'end')}.
 
             Determine whether it's a mood (e.g., 'happy'), an artist (e.g., 'Taylor Swift'), or a genre (e.g., 'jazz').
 
@@ -44,8 +44,8 @@ def give_playlist(response, name_label):
         playlistName = results['playlists']['items'][0]['name']
         playlistOwner = results['playlists']['items'][0]['owner']['display_name']
         if playlistName and playlistOwner:
-            name_label.configure(text= f"Playlist Recommendation: {playlistName} Playlist Owner: {playlistOwner}")
-            print(f"Playlist Recommendation: {playlistName} Playlist Owner: {playlistOwner}")
+            name_label.configure(text= f"Playlist Recommendation: {playlistName}\n Playlist Owner: {playlistOwner}")
+            print(f"Playlist Recommendation: {playlistName}\n Playlist Owner: {playlistOwner}")
         else:
             print(f"There was no recommendation! Please give a better description.")
     except Exception as e:

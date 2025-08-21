@@ -11,5 +11,6 @@
 - Spotify API
 - Tkinter
 - Google-GenAI
+- Icons: <a href="https://www.flaticon.com/free-icons/music" title="music icons">Music icons created by Freepik - Flaticon</a>
 
 #### Made with ❤️
