@@ -36,7 +36,7 @@ name_label.pack(padx=10, pady=5)
 playlistlabel = ctk.CTkLabel(secondframe, image=CTkImage(dark_image=img, size=(200, 200)), text="Playlist image will appear here!")
 playlistlabel.pack(padx=10, pady=5)
 
-name_button = ctk.CTkButton(frame, text='Submit', text_color='Black', hover_color='black',fg_color='#8afa9b', 
+name_button = ctk.CTkButton(frame, text='Get your recommendation!', text_color='Black', hover_color="#52995c",fg_color='#8afa9b', 
                             corner_radius=32, border_color='white', border_width=2, image=CTkImage(dark_image=img),
                             command=lambda: gemini_prompt(name_entry, name_label, playlistlabel))
 name_button.pack(padx=10, pady=5)
