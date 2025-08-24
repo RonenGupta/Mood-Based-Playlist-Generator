@@ -72,3 +72,29 @@ def give_playlist(response, name_label, image_label):
         image_label.configure(text="Could not load image.", image=None)
 
 
+def custom_playlist(custom_entry):
+    try:
+        client.max_output_tokens = 250
+        queries=[]
+        for i in range(5):
+            response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=f"""
+               Analyze this input: {custom_entry.get('0.0', 'end')}.
+
+                    Determine whether it's a mood (e.g., 'happy'), an artist (e.g., 'Taylor Swift'), or a genre (e.g., 'jazz').
+
+                    Then generate a short query in order to search for songs based on this input to store in a playlist. 
+                    Do note that we want songs that are related to each other and the mood that the user has given. 
+                    Output only the query for the song. Make each query slightly different.
+                    
+                    This is variation number {i+1}, so make it slightly different from previous ones or if it is the first one do as you wish.
+                """
+            ,)
+            query = response.text[:250].strip()
+            queries.append(query)
+            print(queries)
+
+    except Exception as e:
+        print(f"Error: {e}")
+

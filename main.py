@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from customtkinter import CTkImage
-from module import gemini_prompt
+from module import gemini_prompt, custom_playlist
 from PIL import Image
 
 ctk.set_appearance_mode("dark")
@@ -11,7 +11,14 @@ root.resizable(False, False)
 img = Image.open('Images/headphone-symbol.png')
 logo = Image.open('Images/Stretched.png')
 
-outer_frame = ctk.CTkFrame(root, fg_color="#211F1F", border_color='white',border_width=2, width=600, height=400)
+tabview = ctk.CTkTabview(master=root, text_color='black', fg_color="#0D0707",segmented_button_selected_color='#8afa9b', segmented_button_selected_hover_color='#52995c', segmented_button_unselected_hover_color='#52995c')
+tabview.pack()
+
+tab_1 = tabview.add("Find an existing playlist!")
+tab_2 = tabview.add("Make your own playlist!")
+
+# Tab 1 Content
+outer_frame = ctk.CTkFrame(tab_1, fg_color="#211F1F", border_color='white',border_width=2, width=600, height=400)
 outer_frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
 
 frame = ctk.CTkFrame(outer_frame, fg_color="#0D0707", border_color='white', border_width=2)
@@ -40,5 +47,18 @@ name_button = ctk.CTkButton(frame, text='Get your recommendation!', text_color='
                             corner_radius=32, border_color='white', border_width=2, image=CTkImage(dark_image=img),
                             command=lambda: gemini_prompt(name_entry, name_label, playlistlabel))
 name_button.pack(padx=10, pady=5)
+
+# Tab 2 Content
+
+custom_entry = ctk.CTkTextbox(tab_2, text_color= 'Black', fg_color='#8afa9b', scrollbar_button_color='#8afa9b', scrollbar_button_hover_color='white',
+                          border_color='white', width=300, border_width=2)
+custom_entry.pack(padx=10, pady=5)
+
+custom_label = ctk.CTkLabel(tab_2, text='Enter your mood!', width=200, height=90, font=('Lexend', 9), wraplength=180)
+custom_label.pack(padx=10, pady=5)
+
+custom_button = ctk.CTkButton(tab_2, text='Get your recommendation!', text_color='Black', hover_color="#52995c",fg_color='#8afa9b', 
+                            corner_radius=32, border_color='white', border_width=2, image=CTkImage(dark_image=img), command=lambda:custom_playlist(custom_entry))
+custom_button.pack(padx=10, pady=5)
 
 root.mainloop()
