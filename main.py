@@ -58,7 +58,7 @@ custom_label = ctk.CTkLabel(tab_2, text='Enter your mood!', width=200, height=90
 custom_label.pack(padx=10, pady=5)
 
 custom_button = ctk.CTkButton(tab_2, text='Get your recommendation!', text_color='Black', hover_color="#52995c",fg_color='#8afa9b', 
-                            corner_radius=32, border_color='white', border_width=2, image=CTkImage(dark_image=img), command=lambda:custom_playlist(custom_entry))
+                            corner_radius=32, border_color='white', border_width=2, image=CTkImage(dark_image=img), command=lambda:custom_playlist(custom_entry, custom_label))
 custom_button.pack(padx=10, pady=5)
 
 root.mainloop()

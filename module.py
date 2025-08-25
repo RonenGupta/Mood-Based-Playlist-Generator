@@ -72,7 +72,7 @@ def give_playlist(response, name_label, image_label):
         image_label.configure(text="Could not load image.", image=None)
 
 
-def custom_playlist(custom_entry):
+def custom_playlist(custom_entry, custom_label):
     try:
         client.max_output_tokens = 250
         queries=[]
@@ -93,8 +93,18 @@ def custom_playlist(custom_entry):
             ,)
             query = response.text[:250].strip()
             queries.append(query)
-            print(queries)
-
+            output_custom(queries, custom_label)
     except Exception as e:
         print(f"Error: {e}")
 
+def output_custom(queries, custom_label):
+    results = []
+    try:
+        for query in queries:
+            result = sp.search(q=query, type='track')
+            resultName = result['tracks']['items'][0]['name']
+            results.append(resultName)
+        custom_label.configure(text=results)
+        print(results)
+    except Exception as e:
+        print(f"Error in custom playlist recommendation: {e}")
