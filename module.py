@@ -1,5 +1,5 @@
 import spotipy
-from spotipy.oauth2 import SpotifyOAuth
+from spotipy.oauth2 import SpotifyClientCredentials
 from customtkinter import CTkImage
 from google import genai
 import urllib.request
@@ -10,20 +10,22 @@ from PIL import Image
 import sys
 
 def resource_path(relative_path):
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(__file__))
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
-load_dotenv(resource_path('.env'))
+
+load_dotenv(resource_path(".env"))
+
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 client_id = os.getenv('client_id')
 client_secret = os.getenv('client_secret')
-redirect_uri = os.getenv('redirect_uri')
+
 
 client = genai.Client(api_key = GEMINI_API_KEY)
-
-scope = ["playlist-modify-private", 'playlist-modify-public', 'user-read-playback-state', 'user-modify-playback-state', 'ugc-image-upload']
-
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id = client_id, client_secret = client_secret, redirect_uri = redirect_uri, scope=' '.join(scope)))
+sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=client_id, client_secret=client_secret))
 
 image_refs = []
 

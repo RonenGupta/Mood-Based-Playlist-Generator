@@ -1,0 +1,4 @@
+([('MoodTunes',
+   '/Users/RonenGupta/Desktop/Summer of '
+   'Making/Mood-Based-Playlist-Generator/dist/MoodTunes',
+   'EXECUTABLE')],)

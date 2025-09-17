@@ -2,10 +2,15 @@ import customtkinter as ctk
 from customtkinter import CTkImage
 from module import gemini_prompt
 from PIL import Image
-import sys, os
+import os
+import sys
+
 
 def resource_path(relative_path):
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(__file__))
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
 
