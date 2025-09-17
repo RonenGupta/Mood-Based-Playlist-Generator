@@ -2,14 +2,20 @@ import customtkinter as ctk
 from customtkinter import CTkImage
 from module import gemini_prompt
 from PIL import Image
+import sys, os
+
+def resource_path(relative_path):
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(__file__))
+    return os.path.join(base_path, relative_path)
+
 
 ctk.set_appearance_mode("dark")
 root = ctk.CTk()
 root.geometry('800x500')
 root.title('MoodTunes')
 root.resizable(False, False)
-img = Image.open('Images/headphone-symbol.png')
-logo = Image.open('Images/Stretched.png')
+img = Image.open(resource_path('Images/headphone-symbol.png'))
+logo = Image.open(resource_path('Images/Stretched.png'))
 
 tabview = ctk.CTkTabview(master=root, text_color='black', fg_color="#0D0707",segmented_button_selected_color='#8afa9b', segmented_button_selected_hover_color='#52995c', segmented_button_unselected_hover_color='#52995c')
 tabview.pack()

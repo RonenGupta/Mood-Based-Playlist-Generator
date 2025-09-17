@@ -7,9 +7,13 @@ import io
 import os
 from dotenv import load_dotenv
 from PIL import Image
+import sys
 
-load_dotenv()
+def resource_path(relative_path):
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(__file__))
+    return os.path.join(base_path, relative_path)
 
+load_dotenv(resource_path('.env'))
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 client_id = os.getenv('client_id')
 client_secret = os.getenv('client_secret')
