@@ -17,7 +17,7 @@
 
 - To run this program, you need to install the following dependencies:
 - Python 3.8 or higher
-- [Ursina Engine](https://www.ursinaengine.org/)
+- Dependencies in requirements.txt
 
 ### Install dependencies
 To install the required dependencies, you can run:
