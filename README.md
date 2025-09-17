@@ -13,4 +13,18 @@
 - Google-GenAI
 - Icons: <a href="https://www.flaticon.com/free-icons/music" title="music icons">Music icons created by Freepik - Flaticon</a>
 
+## Requirements
+
+- To run this program, you need to install the following dependencies:
+- Python 3.8 or higher
+- [Ursina Engine](https://www.ursinaengine.org/)
+
+### Install dependencies
+To install the required dependencies, you can run:
+
+```bash
+pip install -r requirements.txt
+```
+Then just run the program in main.py!
+
 #### Made with ❤️
