@@ -15,16 +15,8 @@
 
 ## Requirements
 
-- To run this program, you need to install the following dependencies:
-- Python 3.8 or higher
-- Dependencies in requirements.txt
-
-### Install dependencies
-To install the required dependencies, you can run:
-
-```bash
-pip install -r requirements.txt
-```
-Then just run the program in main.py!
+1. Download and unzip the release.
+2. Place your own .env file (with API keys) in the same folder as the MoodTunes executable.
+3. Double-click MoodTunes to run.
 
 #### Made with ❤️

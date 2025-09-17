@@ -9,15 +9,25 @@ from dotenv import load_dotenv
 from PIL import Image
 import sys
 
-def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except AttributeError:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
+def get_env_path():
+    if getattr(sys, 'frozen', False):
+        exe_dir = os.path.dirname(sys.argv[0])
+        return os.path.join(exe_dir, ".env")
+    else:
+        return os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
 
 
-load_dotenv(resource_path(".env"))
+env_path = get_env_path()
+
+if not os.path.exists(env_path):
+    raise FileNotFoundError(
+        "No .env file found! Please create a .env file in the same folder as the executable "
+        "(for development, place it next to main.py/module.py)."
+    )
+
+load_dotenv(dotenv_path=env_path)
+
+
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 client_id = os.getenv('client_id')
